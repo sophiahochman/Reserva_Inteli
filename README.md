@@ -6,12 +6,12 @@
 
 ## Sophia Hochman
 
-## Professors:
+## Professores:
 
 ### Orientador
 - <a href="https://www.linkedin.com/in/JuliaStateri/">Julia Stateri
  
-### Professores
+### Instrutores
 - <a href="https://www.linkedin.com/in/anacristinadossantos/">Ana Cristina dos Santos </a>
 - <a href="https://www.linkedin.com/">Bruna Mayer </a>
 - <a href="https://www.linkedin.com/in/cristiano-benites-ph-d-687647a8/">Cristiano Benites </a>
@@ -26,12 +26,13 @@
 
 _Coloque aqui o link para seu projeto publicado e link para vídeo de demonstração_
 
-## 📁 Folder Structure
+## 📁 Estrutura de pastas
+Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
 
 
 
 
-## 💻 Development Setup and Execution
+## 💻 Como executar o código
 
 *Acrescentar as informações necessárias sobre pré-requisitos (IDEs, bibliotecas, serviços etc.) e instalação básica do projeto, descrevendo eventuais versões utilizadas. Colocar um passo a passo de como o leitor pode baixar o código e executar a aplicação a partir de sua máquina local.*
 
@@ -52,10 +53,10 @@ Isso instalará todas as dependências definidas no arquivo <b>package.json</b> 
 ```sh
 npm start
 ```
-5. Agora você pode acessar a aplicação através do link http://localhost:1234/
+5. Agora você pode acessar a aplicação através do link http://localhost:3000/
 6. O servidor está online.
 
-## 🗃 Release History
+## 🗃 Histórico de lançamentos
 
 * 0.5.0 - XX/XX/2025
     * 
@@ -72,5 +73,5 @@ npm start
    
     
 
-## 📋 License
-<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/Inteli-College/2025-1B-T18-IN02-G03.git">Saint Dev</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/Inteli-College/2025-1B-T18-IN02-G03.git">INTELI, CARLOS ICARO KAUÃ COELHO PAIVA, DANILO DE CASTRO NETO, ENZO ARAUJO DE REZENDE, JOÃO PEDRO GONÇALVES CORRÊA ARAUJO, MIRELA SCHNEIDER BIANCHI, PEDRO JORGE ALVES SOARES, SOPHIA HOCHMAN</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""></a></p>
+## 📋 Licença
+ <a href="https://www.linkedin.com/in/sophia-hochman-b821a4346/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app">Sophia Hochman is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Creative Commons Attribution 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1" alt=""></a></p>
