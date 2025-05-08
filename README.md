@@ -1,4 +1,4 @@
-# Reserva_Inteli
+# Reserva Inteli
 
 <p align="center">
 <a href= "https://www.inteli.edu.br/"><img src="/assets/inteli.png" alt="Inteli - Instituto de Tecnologia e Liderança" border="0"></a>
@@ -8,10 +8,11 @@
 ## Sophia Hochman
 
 ## Professors:
+
 ### Orientador
 - <a href="https://www.linkedin.com/in/JuliaStateri/">Julia Stateri
  
-### Instrutores
+### Professores
 - <a href="https://www.linkedin.com/in/anacristinadossantos/">Ana Cristina dos Santos </a>
 - <a href="https://www.linkedin.com/">Bruna Mayer </a>
 - <a href="https://www.linkedin.com/in/cristiano-benites-ph-d-687647a8/">Cristiano Benites </a>
@@ -20,17 +21,7 @@
 
 ## 📝 Descrição
 
-&nbsp;&nbsp;&nbsp;&nbsp;The Saint Dev project was created to support the community at St. Paul’s School, the British school of São Paulo. Focused on improving the parent experience, the project delivers the St. Paul’s Parents Portal — a centralized platform for accessing important academic information about their children.
 
-&nbsp;&nbsp;&nbsp;&nbsp;Today, parents struggle to follow their children’s academic life because the school's mobile app offers only a limited experience. Many important details, such as absences, timetables, and homework assignments, are not easily accessible. To address this, the new portal allows parents to view reports, calendars, communications, and assigned tasks in one organized place.
-
-&nbsp;&nbsp;&nbsp;&nbsp;The portal serves around 1200 students and will be managed by the school's communications, secretarial, and IT teams. Parents will log in using their registered email address and a temporary password, which they can later update.
-
-&nbsp;&nbsp;&nbsp;&nbsp;Once logged in, they can see their child’s name, academic year, photo, teacher contacts, timetable, tasks from Microsoft Teams, and grade reports.
-
-The first phase (MVP) includes login, student information, timetable, and reports. All personal data will be protected and anonymized, as the project will run in a local environment without external hosting.
-
-Saint Dev helps strengthen the partnership between school and families, promoting better academic support at home.
 
 ## 📝 Demo Link
 
@@ -38,18 +29,7 @@ _Coloque aqui o link para seu projeto publicado e link para vídeo de demonstra�
 
 ## 📁 Folder Structure
 
-Among the files and folders present in the root of the project, the following are defined:
 
-- **assets**: Here are the files related to non-structured elements of this repository, such as images.
-  
-  - **fotos**: Here are the photos of the project's developers;
-  - **wad**: Here are the assets present in the project documentation.
-
-- **document**: Here are all the project documents, such as the Web Application Document (WAD) and supplementary documents in the "other" folder.
-
-- **src**: All the source code created for the development of the web application project.
-
-- **README.md**: A file that serves as an introductory guide and general explanation about the project and the application (the same file you are reading now).
 
 
 ## 💻 Development Setup and Execution
@@ -86,17 +66,10 @@ npm start
     * 
 * 0.2.0 - XX/XX/2025
     * 
-* 0.1.0 - 30/04/2025
+* 0.1.0 - XX/XX/2025
     *
 
-    * Understanding of the partner's context;
-    * Understanding the problem to be solved;
-    * Creation of the first personas and user stories;
-    * Creation of the project's value proposition canvas;
-    * First project risk matrix;
-    * Business analysis of the partner:
-        * Porter's Five Forces;
-        * SWOT Analysis.
+   
    
     
 
