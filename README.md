@@ -20,6 +20,7 @@
 
 ## 📝 Descrição
 
+Este projeto consiste no desenvolvimento de um sistema web para reserva de salas na faculdade, com o objetivo de substituir o processo manual atualmente realizado pela secretaria. A plataforma permite que alunos, professores e demais usuários autorizados consultem a disponibilidade das salas em tempo real, realizem reservas de forma prática e organizada, e gerenciem seus agendamentos de maneira eficiente.
 
 
 ## 📝 Demo Link
