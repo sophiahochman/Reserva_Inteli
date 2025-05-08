@@ -1,8 +1,7 @@
 # Reserva Inteli
 
-<p align="center">
-<a href= "https://www.inteli.edu.br/"><img src="/assets/inteli.png" alt="Inteli - Instituto de Tecnologia e Liderança" border="0"></a>
-</p>
+
+![Image](https://github.com/user-attachments/assets/91b5b6da-7e3a-4070-bbf2-3eead6687483)
 
 
 ## Sophia Hochman
