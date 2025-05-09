@@ -117,6 +117,8 @@ Table bookings {
   alt="Título"><br>
 </div>
 
+https://www.figma.com/design/yMx8z6V90azeO57Mc6PmDy/Untitled?node-id=0-1&t=TvFh0XZwV5sfasTy-1 
+
 ### 3.4. Guia de estilos (Semana 05)
 
 *Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
