@@ -90,6 +90,11 @@ Table bookings {
 }
 ```
 
+<div align="center">
+  <img src="../assets/bancoDados.png" width="100%"
+  alt="Título"><br>
+</div>
+
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
