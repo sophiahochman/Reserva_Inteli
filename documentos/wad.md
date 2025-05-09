@@ -92,7 +92,7 @@ Table bookings {
 
 <div align="center">
   <img src="../assets/bancoDados.png" width="100%"
-  alt="Título"><br>
+  alt="Imagem do banco de dados"><br>
 </div>
 
 
@@ -114,7 +114,7 @@ Table bookings {
 
 <div align="center">
   <img src="../assets/WireFrame.png" width="100%"
-  alt="Título"><br>
+  alt="wire frame"><br>
 </div>
 
 ### 3.4. Guia de estilos (Semana 05)
