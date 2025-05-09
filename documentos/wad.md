@@ -112,7 +112,10 @@ Table bookings {
 
 ### 3.3. Wireframes (Semana 03)
 
-*Posicione aqui as imagens do wireframe construído para sua solução e, opcionalmente, o link para acesso (mantenha o link sempre público para visualização).*
+<div align="center">
+  <img src="../assets/WireFrame.png" width="100%"
+  alt="Título"><br>
+</div>
 
 ### 3.4. Guia de estilos (Semana 05)
 
