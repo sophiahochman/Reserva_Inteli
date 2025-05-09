@@ -66,10 +66,30 @@ T – Testável: Pode ser testada simulando uma reserva e verificando a resposta
 ## <a name="c3"></a>3. Projeto da Aplicação Web
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
+```
+Table users {
+  id int [pk, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+}
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+Table rooms {
+  id int [pk, increment]
+  name varchar
+  status varchar
+}
 
-*Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
+Table bookings {
+  id int [pk, increment]
+  user_id int [ref: > users.id]
+  room_id int [ref: > rooms.id]
+  date date
+  start_time time
+  status varchar
+}
+```
+
 
 ### 3.1.1 BD e Models (Semana 5)
 *Descreva aqui os Models implementados no sistema web*
