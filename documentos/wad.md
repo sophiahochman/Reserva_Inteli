@@ -67,27 +67,29 @@ T – Testável: Pode ser testada simulando uma reserva e verificando a resposta
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 ```
-Table users {
-  id int [pk, increment]
-  name varchar
-  email varchar [unique]
-  password varchar
-}
 
-Table rooms {
-  id int [pk, increment]
-  name varchar
-  status varchar
-}
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  email VARCHAR UNIQUE NOT NULL,
+  password VARCHAR NOT NULL
+);
 
-Table bookings {
-  id int [pk, increment]
-  user_id int [ref: > users.id]
-  room_id int [ref: > rooms.id]
-  date date
-  start_time time
-  status varchar
-}
+CREATE TABLE rooms (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR NOT NULL,
+  status VARCHAR NOT NULL
+);
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  room_id INTEGER REFERENCES rooms(id) ON DELETE CASCADE,
+  date DATE NOT NULL,
+  start_time TIME NOT NULL,
+  status VARCHAR NOT NULL
+);
+
 ```
 
 <div align="center">
