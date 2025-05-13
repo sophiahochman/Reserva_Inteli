@@ -115,7 +115,7 @@ CREATE TABLE bookings (
 ### 3.3. Wireframes (Semana 03)
 
 <div align="center">
-  <img src="../assets/WireFrame.png" width="100%"
+  <img src="../assets/wireFrame.png" width="100%"
   alt="wire frame"><br>
 </div>
 
