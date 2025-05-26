@@ -153,7 +153,47 @@ https://www.figma.com/design/yMx8z6V90azeO57Mc6PmDy/Untitled?node-id=1-2&p=f&t=N
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
+O sistema implementa uma WebAPI utilizando Node.js com Express, permitindo a interação entre o front-end e o banco de dados por meio de requisições HTTP. Essa API é responsável por gerenciar recursos como usuários, salas e reservas.
+
+A seguir, estão descritos os principais endpoints disponíveis no sistema:
+
+Endpoints de Usuário
+GET /usuarios – Retorna a lista de todos os usuários cadastrados.
+
+GET /usuarios/:id – Retorna os dados de um usuário específico.
+
+POST /usuarios – Cadastra um novo usuário.
+
+PUT /usuarios/:id – Atualiza os dados de um usuário.
+
+DELETE /usuarios/:id – Remove um usuário do sistema.
+
+Endpoints de Sala
+GET /salas – Lista todas as salas disponíveis.
+
+GET /salas/:id – Exibe os detalhes de uma sala específica.
+
+POST /salas – Cadastra uma nova sala.
+
+PUT /salas/:id – Atualiza as informações de uma sala.
+
+DELETE /salas/:id – Remove uma sala do sistema.
+
+Endpoints de Reserva
+GET /reservas – Lista todas as reservas realizadas.
+
+GET /reservas/:id – Mostra os detalhes de uma reserva específica.
+
+POST /reservas – Cria uma nova reserva de sala.
+
+PUT /reservas/:id – Altera uma reserva existente.
+
+DELETE /reservas/:id – Cancela uma reserva.
+
+Endpoints de Horários (opcional, se implementado)
+GET /horarios – Lista os horários disponíveis para reserva.
+
+POST /horarios – Adiciona um novo intervalo de horário.
 
 ### 3.7 Interface e Navegação (Semana 07)
 
