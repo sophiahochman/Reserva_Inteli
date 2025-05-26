@@ -99,7 +99,18 @@ CREATE TABLE bookings (
 
 
 ### 3.1.1 BD e Models (Semana 5)
-*Descreva aqui os Models implementados no sistema web*
+Os Models do sistema foram desenvolvidos seguindo a arquitetura MVC (Model-View-Controller), e estão localizados na pasta models/ do projeto. Esses modelos representam as entidades principais do sistema de reserva de salas da instituição e são responsáveis pela comunicação com o banco de dados, estruturado em PostgreSQL.
+Cada model define a estrutura das tabelas do banco de dados, incluindo os campos, tipos de dados e relacionamentos entre entidades. A seguir, uma breve descrição dos principais modelos implementados:
+
+Usuário (User): representa os usuários do sistema, contendo informações como nome, e-mail, matrícula e tipo de perfil (ex: aluno, professor, administrador).
+
+Sala (Room): define os dados das salas disponíveis para reserva, incluindo nome da sala, localização e capacidade.
+
+Reserva (Booking): registra as reservas feitas pelos usuários, contendo dados como data, horário, sala reservada e usuário responsável.
+
+Esses modelos permitem realizar operações como criação, leitura, atualização e exclusão (CRUD) diretamente no banco de dados, garantindo a integridade das informações e o bom funcionamento da aplicação. A estrutura modular também facilita futuras expansões e manutenções no sistema.
+
+
 
 ### 3.2. Arquitetura (Semana 5)
 
