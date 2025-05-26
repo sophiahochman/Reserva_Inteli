@@ -123,12 +123,22 @@ https://www.figma.com/design/yMx8z6V90azeO57Mc6PmDy/Untitled?node-id=0-1&t=TvFh0
 
 ### 3.4. Guia de estilos (Semana 05)
 
-*Descreva aqui orientações gerais para o leitor sobre como utilizar os componentes do guia de estilos de sua solução.*
+<div align="center">
+  <img src="../assets/guiaEstilos.png" width="100%"
+  alt="Imagem do banco de dados"><br>
+</div>
+
+https://www.figma.com/design/yMx8z6V90azeO57Mc6PmDy/Untitled?node-id=41-91&p=f&t=NXb8NO7se3D6uT0F-0
 
 
 ### 3.5. Protótipo de alta fidelidade (Semana 05)
 
-*Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
+<div align="center">
+  <img src="../assets/altaFidelidade.png" width="100%"
+  alt="Imagem do banco de dados"><br>
+</div>
+
+https://www.figma.com/design/yMx8z6V90azeO57Mc6PmDy/Untitled?node-id=1-2&p=f&t=NXb8NO7se3D6uT0F-0 
 
 ### 3.6. WebAPI e endpoints (Semana 05)
 

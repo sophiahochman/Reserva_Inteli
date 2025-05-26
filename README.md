@@ -101,6 +101,40 @@ meu-projeto/
 
 ```
 
+------
+## 💻 Como Executar o Projeto Localmente
+Siga os passos abaixo para rodar o projeto na sua máquina local.
+
+Pré-requisitos
+Node.js instalado (versão 14 ou superior recomendada)
+Banco de dados PostgreSQL instalado e rodando localmente ou uma conta no Supabase
+Git instalado para clonar o repositório
+Passos para executar
+Clone o repositório
+cd seu-repositorio
+
+git clone https://github.com/seu-usuario/seu-repositorio.git 
+
+Instale as dependências
+npm install
+
+Configure o banco de dados
+Se usar PostgreSQL local, crie um banco de dados.
+Execute o script SQL para criar as tabelas:
+psql -U seu_usuario -d seu_banco -f script/init.sql
+
+Se usar Supabase, execute o script SQL no editor SQL do painel Supabase.
+Configure as variáveis de ambiente
+Crie (ou edite o arquivo existente) um .env na raiz do projeto com as variáveis necessárias, por exemplo:
+PORT=3000 DATABASE_URL=postgresql://seu_usuario:sua_senha@localhost:5432/seu_banco SUPABASE_URL=https://xyzcompany.supabase.co SUPABASE_ANON_KEY=seu_anon_key
+
+Inicie o servidor
+node server.js
+
+Acesse a aplicação
+Abra o navegador e acesse http://localhost:3000
+
+
 Licença
 -------
 
