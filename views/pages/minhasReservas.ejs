@@ -12,38 +12,91 @@
         <nav>
           <ul>
             <li><a href="/home">RESERVAS</a></li>
-            <li class="active"><a href="/minhas-reservas">MINHAS RESERVAS</a></li>
+            <li class="active">
+              <a href="/minhas-reservas">MINHAS RESERVAS</a>
+            </li>
           </ul>
         </nav>
       </div>
     </header>
     <main class="container">
+      <div id="success-message" class="success-message" style="display: none">
+        Reserva criada com sucesso!
+      </div>
       <h1>Minhas Reservas</h1>
-      <div class="reservas-list">
-        <% if (reservas && reservas.length > 0) { %>
-          <% reservas.forEach(function(reserva) { %>
-            <div class="reserva-card">
-              <div class="reserva-info">
-                <div class="sala-img">
-                  <img src="<%= reserva.imagem || '/img/sala-default.jpg' %>" alt="<%= reserva.sala %>" />
-                </div>
-                <div class="reserva-dados">
-                  <h2><%= reserva.sala %></h2>
-                  <p><strong>Data:</strong> <%= reserva.date %></p>
-                  <p><strong>Horário:</strong> <%= reserva.horario %></p>
-                  <p><strong>Status:</strong> <%= reserva.status %></p>
-                </div>
-              </div>
-              <div class="reserva-acoes">
-                <button class="btn-cancelar">Cancelar</button>
-                <button class="btn-editar">Editar</button>
-              </div>
+      <button id="refresh-btn" class="refresh-btn" type="button">
+        Atualizar
+      </button>
+      <div id="loading" class="loading-spinner" style="display: none"></div>
+      <div class="reservas-list" id="reservas-list">
+        <% if (reservas && reservas.length > 0) { %> <%
+        reservas.forEach(function(reserva) { %>
+        <div class="reserva-card">
+          <div class="reserva-info">
+            <div class="sala-img">
+              <img
+                src="<%= reserva.imagem || '/img/sala-default.jpg' %>"
+                alt="<%= reserva.sala %>"
+              />
             </div>
-          <% }) %>
-        <% } else { %>
-          <p class="nenhuma-reserva">Você ainda não possui reservas.</p>
+            <div class="reserva-dados">
+              <h2><%= reserva.sala %></h2>
+              <p><strong>Data:</strong> <%= reserva.date %></p>
+              <p><strong>Horário:</strong> <%= reserva.horario %></p>
+              <p><strong>Status:</strong> <%= reserva.status %></p>
+            </div>
+          </div>
+          <div class="reserva-acoes">
+            <button class="btn-cancelar">Cancelar</button>
+            <button class="btn-editar">Editar</button>
+          </div>
+        </div>
+        <% }) %> <% } else { %>
+        <p class="nenhuma-reserva">Você ainda não possui reservas.</p>
         <% } %>
       </div>
+      <script>
+        // Exibir mensagem de sucesso se veio de uma reserva
+        if (window.location.search.includes("success=1")) {
+          document.getElementById("success-message").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("success-message").style.display = "none";
+          }, 2000);
+        }
+        // Atualizar reservas sem recarregar
+        document.getElementById("refresh-btn").onclick = async function () {
+          document.getElementById("loading").style.display = "block";
+          const res = await fetch("/minhas-reservas/api");
+          const reservas = await res.json();
+          const list = document.getElementById("reservas-list");
+          list.innerHTML = reservas.length
+            ? reservas
+                .map(
+                  (reserva) => `
+            <div class=\"reserva-card\">
+              <div class=\"reserva-info\">
+                <div class=\"sala-img\"><img src=\"${
+                  reserva.imagem || "/img/sala-default.jpg"
+                }\" alt=\"${reserva.sala}\" /></div>
+                <div class=\"reserva-dados\">
+                  <h2>${reserva.sala}</h2>
+                  <p><strong>Data:</strong> ${reserva.date}</p>
+                  <p><strong>Horário:</strong> ${reserva.horario}</p>
+                  <p><strong>Status:</strong> ${reserva.status}</p>
+                </div>
+              </div>
+              <div class=\"reserva-acoes\">
+                <button class=\"btn-cancelar\">Cancelar</button>
+                <button class=\"btn-editar\">Editar</button>
+              </div>
+            </div>
+          `
+                )
+                .join("")
+            : '<p class="nenhuma-reserva">Você ainda não possui reservas.</p>';
+          document.getElementById("loading").style.display = "none";
+        };
+      </script>
     </main>
   </body>
 </html>
