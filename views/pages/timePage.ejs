@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Seleção de Horário - Inteli</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/timePage.css" />
   </head>
   <body>
     <div class="reserva-header">
       <div class="reserva-tabs">
-        <a href="/reservaPage" class="tab">&larr; VOLTAR</a>
+        <a href="/home" class="tab">&larr; VOLTAR</a>
       </div>
     </div>
     <div class="time-container">
-      <form class="time-form" action="/reservaPage" method="GET">
+      <form class="time-form" id="timeForm">
         <label for="day">Dia da Semana</label>
         <select id="day" name="day" required>
           <option value="">Selecione o dia</option>
@@ -23,12 +24,55 @@
           <option value="quinta">Quinta-feira</option>
           <option value="sexta">Sexta-feira</option>
         </select>
-
         <label for="time">Horário de Início</label>
         <input type="time" id="time" name="time" required />
-
         <button type="submit">Confirmar Reserva</button>
       </form>
+      <div
+        id="success-animation"
+        style="
+          display: none;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(255, 255, 255, 0.85);
+          z-index: 9999;
+        "
+      >
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle
+            cx="60"
+            cy="60"
+            r="54"
+            fill="#fff"
+            stroke="#4CAF50"
+            stroke-width="6"
+          />
+          <polyline
+            points="40,65 55,80 85,50"
+            fill="none"
+            stroke="#4CAF50"
+            stroke-width="8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
     </div>
+    <script>
+      document
+        .getElementById("timeForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          document.getElementById("success-animation").style.display = "flex";
+          setTimeout(() => {
+            window.location.href = "/home";
+          }, 1200);
+        });
+    </script>
   </body>
 </html>

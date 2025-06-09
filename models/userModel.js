@@ -1,36 +1,39 @@
-const db = require('../config/db');
+const db = require("../config/database");
+const bcrypt = require("bcrypt");
 
-class User {
-  static async getAllUsers() {
-    const result = await db.query('SELECT * FROM users');
-    return result.rows;
-  }
+const userModel = {
+  async findByEmail(email) {
+    const user = await db.getAsync("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    return user;
+  },
 
-  static async getUserById(id) {
-    const result = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-    return result.rows[0];
-  }
-
-  static async createUser(data) {
-    const result = await db.query(
-      'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
-      [data.name, data.email, data.password]
+  async create(name, email, password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await db.runAsync(
+      "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
+      [name, email, hashedPassword]
     );
-    return result.rows[0];
-  }
+    return result.lastID;
+  },
 
-  static async updateUser(id, data) {
-    const result = await db.query(
-      'UPDATE users SET name = $1, email = $2, password = $3 WHERE id = $4 RETURNING *',
-      [data.name, data.email, data.password, id]
-    );
-    return result.rows[0];
-  }
+  async findById(id) {
+    const user = await db.getAsync("SELECT * FROM users WHERE id = ?", [id]);
+    return user;
+  },
 
-  static async deleteUser(id) {
-    const result = await db.query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
-    return result.rowCount > 0;
-  }
-}
+  async update(id, name, email) {
+    await db.runAsync("UPDATE users SET name = ?, email = ? WHERE id = ?", [
+      name,
+      email,
+      id,
+    ]);
+  },
 
-module.exports = User;
+  async delete(id) {
+    await db.runAsync("DELETE FROM users WHERE id = ?", [id]);
+  },
+};
+
+module.exports = userModel;

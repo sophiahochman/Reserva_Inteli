@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas</title>
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <nav>
+          <ul>
+            <li class="active"><a href="/home">RESERVAS</a></li>
+            <li><a href="/minhas-reservas">MINHAS RESERVAS</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <h1>Reservas</h1>
+      <div class="salas-lista">
+        <% if (salas && salas.length > 0) { %> <% salas.forEach(function(sala) {
+        %>
+        <div class="sala-card">
+          <div class="sala-img">
+            <img
+              src="<%= sala.imagem || '/img/sala-default.jpg' %>"
+              alt="<%= sala.name %>"
+            />
+          </div>
+          <div class="sala-label"><%= sala.name %></div>
+          <button
+            class="sala-btn"
+            onclick="window.location.href='/selectPage?sala=<%= sala.id %>'"
+          >
+            Ver detalhes
+          </button>
+        </div>
+        <% }) %> <% } else { %>
+        <p>Nenhuma sala disponível.</p>
+        <% } %>
+      </div>
+    </main>
+  </body>
+</html>

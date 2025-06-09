@@ -3,25 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Inteli</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <title>Login - Sistema de Reserva de Salas</title>
+    <link rel="stylesheet" href="/css/login.css" />
   </head>
   <body>
-    <div class="login-container">
-      <div class="login-banner">
-        <!-- Imagem/banner do Inteli (placeholder) -->
-        <div class="banner-placeholder">Banner Inteli</div>
-      </div>
-      <form class="login-form" action="/reservaPage" method="GET">
-        <input type="text" placeholder="Login" name="login" required />
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div class="login-header">
+      <!-- Logo removido -->
     </div>
+    <div class="container">
+      <div class="login-box">
+        <h1>Login</h1>
+        <form id="loginForm">
+          <div class="input-group">
+            <label for="email">Login</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <div id="error-message" class="error-message"></div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const errorMessage = document.getElementById("error-message");
+
+          try {
+            const response = await fetch("/api/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              // Login bem-sucedido
+              window.location.href = "/";
+            } else {
+              // Exibir mensagem de erro
+              errorMessage.textContent = data.error || "Erro ao fazer login";
+              errorMessage.style.display = "block";
+            }
+          } catch (error) {
+            console.error("Erro:", error);
+            errorMessage.textContent = "Erro ao conectar com o servidor";
+            errorMessage.style.display = "block";
+          }
+        });
+
+      // Testar conexão com o servidor
+      async function testServerConnection() {
+        try {
+          const response = await fetch("/test");
+          const data = await response.json();
+          console.log("Conexão com o servidor:", data.message);
+        } catch (error) {
+          console.error("Erro ao conectar com o servidor:", error);
+        }
+      }
+
+      // Testar conexão quando a página carregar
+      testServerConnection();
+    </script>
   </body>
 </html>

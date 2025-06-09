@@ -1,0 +1,234 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: #a10e1a;
+  padding: 0 0 10px 0;
+  border-radius: 0 0 20px 20px;
+  color: #fff;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 0 0 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 8px 18px;
+  border-radius: 20px 20px 0 0;
+  transition: background 0.2s;
+}
+
+nav ul li.active a,
+nav ul li a:hover {
+  background: #fff;
+  color: #a10e1a;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 32px 32px 40px 32px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+  color: #a10e1a;
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 2.2em;
+  font-weight: 700;
+}
+
+p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+button {
+  background: #fff;
+  color: #222;
+  padding: 12px 28px;
+  border: 2px solid #000;
+  border-radius: 24px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 500;
+  margin: 5px;
+  transition: background 0.2s, color 0.2s;
+}
+
+button:hover {
+  background: #000;
+  color: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  padding: 8px 20px;
+  font-size: 1em;
+  border-radius: 24px;
+  border: 2px solid #000;
+  background: #fff;
+  color: #222;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.actions button:hover {
+  background: #000;
+  color: #fff;
+}
+
+.actions button:first-child {
+  background-color: #2196f3;
+}
+
+.actions button:last-child {
+  background-color: #f44336;
+}
+
+.actions button:first-child:hover {
+  background-color: #1976d2;
+}
+
+.actions button:last-child:hover {
+  background-color: #d32f2f;
+}
+
+.salas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.sala-card {
+  display: flex;
+  align-items: center;
+  background: #f7f7f7;
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  padding: 0;
+  overflow: hidden;
+  min-height: 120px;
+  border: none;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.sala-card:hover {
+  box-shadow: 0 8px 32px rgba(161, 14, 26, 0.13);
+  transform: translateY(-2px) scale(1.01);
+}
+.sala-img {
+  flex: 0 0 220px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eaeaea;
+}
+.sala-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+.sala-label {
+  flex: 1;
+  font-size: 1.5em;
+  color: #222;
+  font-weight: 600;
+  text-align: center;
+}
+.sala-btn {
+  margin-right: 32px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 24px;
+  background: #a10e1a;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(161, 14, 26, 0.08);
+}
+.sala-btn:hover {
+  background: #7c0b16;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(161, 14, 26, 0.15);
+}
+@media (max-width: 800px) {
+  .sala-card {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: unset;
+  }
+  .sala-img {
+    width: 100%;
+    height: 180px;
+  }
+  .sala-label,
+  .sala-btn {
+    padding-left: 0;
+    margin-right: 0;
+    margin-top: 16px;
+    text-align: center;
+  }
+}

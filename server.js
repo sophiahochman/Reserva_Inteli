@@ -1,29 +1,59 @@
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const path = require("path");
+const homeRoutes = require("./routes/home");
+
+// Configuração do CORS
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 // Configuração do EJS
 app.set("view engine", "ejs");
-app.set("views", __dirname + "/views");
+app.set("views", path.join(__dirname, "views"));
 
 // Middleware para arquivos estáticos
-app.use(express.static(__dirname + "/views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Middleware para processar JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware de tratamento de erros
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Algo deu errado!" });
+});
+
+// Configuração da sessão
+app.use(
+  session({
+    secret: "sua-chave-secreta",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    },
+  })
+);
+
+// Rota de teste
+app.get("/test", (req, res) => {
+  res.json({ message: "Servidor está funcionando!" });
+});
+
 // Rotas das páginas do protótipo
-app.get("/", (req, res) => {
+app.get("/login", (req, res) => {
   res.render("pages/loginPage");
-});
-
-app.get("/loginPage", (req, res) => {
-  res.render("pages/loginPage");
-});
-
-app.get("/reservaPage", (req, res) => {
-  res.render("pages/reservaPage");
 });
 
 app.get("/selectPage", (req, res) => {
@@ -34,15 +64,24 @@ app.get("/timePage", (req, res) => {
   res.render("pages/timePage");
 });
 
-app.get("/minhasReservas", (req, res) => {
-  res.render("pages/minhasReservas");
-});
+// Rotas de API
+const authRoutes = require("./routes/authRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
+const minhasReservasRoutes = require("./routes/minhasReservas");
+app.use("/api/auth", authRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/minhas-reservas", minhasReservasRoutes);
 
-// Rotas de API (com prefixo para não conflitar)
-const routes = require("./routes/index");
-app.use("/api", routes);
+// Substituir:
+app.get("/", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.redirect("/home");
+});
+app.use("/home", homeRoutes);
 
 // Inicializa o servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

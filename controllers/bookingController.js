@@ -1,10 +1,10 @@
 // controllers/bookingController.js
 
-const bookingModel = require('../models/bookingModel');
+const bookingModel = require("../models/bookingModel");
 
 const getAllBookings = async (req, res) => {
   try {
-    const booking = await bookingModel.getAllBookings();
+    const bookings = await bookingModel.getAllBookings();
     res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -17,7 +17,7 @@ const getBookingById = async (req, res) => {
     if (booking) {
       res.status(200).json(booking);
     } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
+      res.status(404).json({ error: "Reserva não encontrada" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -26,8 +26,19 @@ const getBookingById = async (req, res) => {
 
 const createBooking = async (req, res) => {
   try {
-    const { user_id, room_id, date, start_time, status } = req.body;
-    const newBooking = await bookingModel.createBooking(user_id, room_id, date, start_time, status);
+    // Sempre usar o user_id da sessão
+    const user_id = req.session.user && req.session.user.id;
+    if (!user_id) {
+      return res.status(401).json({ error: "Usuário não autenticado" });
+    }
+    const { room_id, date, start_time, status } = req.body;
+    const newBooking = await bookingModel.createBooking(
+      user_id,
+      room_id,
+      date,
+      start_time,
+      status
+    );
     res.status(201).json(newBooking);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -37,11 +48,18 @@ const createBooking = async (req, res) => {
 const updateBooking = async (req, res) => {
   try {
     const { user_id, room_id, date, start_time, status } = req.body;
-    const updatedBooking = await bookingModel.updateBooking(req.params.id,user_id, room_id, date, start_time, status);
+    const updatedBooking = await bookingModel.updateBooking(
+      req.params.id,
+      user_id,
+      room_id,
+      date,
+      start_time,
+      status
+    );
     if (updatedBooking) {
       res.status(200).json(updatedBooking);
     } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
+      res.status(404).json({ error: "Reserva não encontrada" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -52,9 +70,9 @@ const deleteBooking = async (req, res) => {
   try {
     const deletedBooking = await bookingModel.deleteBooking(req.params.id);
     if (deletedBooking) {
-      res.status(200).json(deletedBooking);
+      res.status(200).json({ message: "Reserva excluída com sucesso" });
     } else {
-      res.status(404).json({ error: 'Usuário não encontrado' });
+      res.status(404).json({ error: "Reserva não encontrada" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -66,5 +84,5 @@ module.exports = {
   getBookingById,
   createBooking,
   updateBooking,
-  deleteBooking
+  deleteBooking,
 };

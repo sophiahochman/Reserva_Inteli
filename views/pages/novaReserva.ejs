@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova Reserva</title>
+    <link rel="stylesheet" href="/css/reserva.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <nav>
+          <ul>
+            <li class="active"><a href="/home">RESERVAS</a></li>
+            <li><a href="/minhas-reservas">MINHAS RESERVAS</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <div class="container">
+      <h1>Nova Reserva</h1>
+      <form id="reservaForm">
+        <div class="form-group">
+          <label for="room_id">Sala:</label>
+          <select id="room_id" name="room_id" required>
+            <option value="">Selecione uma sala</option>
+            <!-- Salas serão carregadas via JavaScript -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Data:</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+
+        <div class="form-group">
+          <label for="start_time">Horário:</label>
+          <input type="time" id="start_time" name="start_time" required />
+        </div>
+
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="pendente">Pendente</option>
+            <option value="confirmada">Confirmada</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button type="submit">Salvar</button>
+          <button type="button" onclick="window.location.href='/'">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div
+      id="success-animation"
+      style="
+        display: none;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.85);
+        z-index: 9999;
+      "
+    >
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle
+          cx="60"
+          cy="60"
+          r="54"
+          fill="#fff"
+          stroke="#4CAF50"
+          stroke-width="6"
+        />
+        <polyline
+          points="40,65 55,80 85,50"
+          fill="none"
+          stroke="#4CAF50"
+          stroke-width="8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <script>
+      // Carregar salas disponíveis
+      async function carregarSalas() {
+        try {
+          const response = await fetch("/api/rooms");
+          const salas = await response.json();
+          const select = document.getElementById("room_id");
+
+          salas.forEach((sala) => {
+            const option = document.createElement("option");
+            option.value = sala.id;
+            option.textContent = sala.name;
+            select.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Erro ao carregar salas:", error);
+        }
+      }
+
+      // Enviar formulário
+      document
+        .getElementById("reservaForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const formData = {
+            room_id: document.getElementById("room_id").value,
+            date: document.getElementById("date").value,
+            start_time: document.getElementById("start_time").value,
+            status: document.getElementById("status").value,
+          };
+
+          try {
+            const response = await fetch("/api/bookings", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+              document.getElementById("success-animation").style.display =
+                "flex";
+              setTimeout(() => {
+                window.location.href = "/minhas-reservas";
+              }, 1200);
+              return;
+            } else {
+              const error = await response.json();
+              alert(error.error || "Erro ao criar reserva");
+            }
+          } catch (error) {
+            console.error("Erro:", error);
+            alert("Erro ao criar reserva");
+          }
+        });
+
+      // Carregar salas quando a página carregar
+      carregarSalas();
+    </script>
+  </body>
+</html>
