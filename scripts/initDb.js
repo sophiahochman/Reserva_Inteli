@@ -51,14 +51,14 @@ async function initDatabase() {
     console.log("Usuário de teste criado com sucesso!");
 
     // Inserir algumas salas de teste
-    await db.runAsync(`
-      INSERT OR IGNORE INTO rooms (name, status)
-      VALUES 
-        ('Sala 101', 'disponível'),
-        ('Sala 102', 'disponível'),
-        ('Sala 103', 'disponível')
-    `);
-    console.log("Salas de teste criadas com sucesso!");
+    // await db.runAsync(`
+    //   INSERT OR IGNORE INTO rooms (name, status)
+    //   VALUES
+    //     ('Sala 101', 'disponível'),
+    //     ('Sala 102', 'disponível'),
+    //     ('Sala 103', 'disponível')
+    // `);
+    // console.log("Salas de teste criadas com sucesso!");
 
     console.log("Banco de dados inicializado com sucesso!");
   } catch (error) {
