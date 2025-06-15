@@ -39,6 +39,7 @@ const createBooking = async (req, res) => {
       start_time,
       status
     );
+    console.log("Reserva criada:", newBooking);
     res.status(201).json(newBooking);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -79,10 +80,21 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+const getAllBookingsRaw = async (req, res) => {
+  try {
+    const db = require("../models/bookingModel");
+    const all = await db.getAllBookings();
+    res.json(all);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
+
 module.exports = {
   getAllBookings,
   getBookingById,
   createBooking,
   updateBooking,
   deleteBooking,
+  getAllBookingsRaw,
 };

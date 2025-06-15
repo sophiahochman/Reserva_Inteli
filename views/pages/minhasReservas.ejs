@@ -5,6 +5,108 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Minhas Reservas</title>
     <link rel="stylesheet" href="/css/minhasReservas.css" />
+    <style>
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .success-message {
+        color: #28a745;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        text-align: center;
+      }
+      .error-message {
+        color: #dc3545;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        text-align: center;
+        display: none;
+      }
+      .btn-cancelar {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .btn-cancelar:hover {
+        background-color: #c82333;
+      }
+      .btn-editar {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .btn-editar:hover {
+        background-color: #0056b3;
+      }
+      .refresh-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .refresh-btn:hover {
+        background-color: #218838;
+      }
+      .refresh-btn:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        max-width: 400px;
+        width: 90%;
+      }
+      .modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
     <header class="header">
@@ -20,9 +122,12 @@
       </div>
     </header>
     <main class="container">
-      <div id="success-message" class="success-message" style="display: none">
-        Reserva criada com sucesso!
-      </div>
+      <div
+        id="success-message"
+        class="success-message"
+        style="display: none"
+      ></div>
+      <div id="error-message" class="error-message"></div>
       <h1>Minhas Reservas</h1>
       <button id="refresh-btn" class="refresh-btn" type="button">
         Atualizar
@@ -31,72 +136,218 @@
       <div class="reservas-list" id="reservas-list">
         <% if (reservas && reservas.length > 0) { %> <%
         reservas.forEach(function(reserva) { %>
-        <div class="reserva-card">
+        <div class="reserva-card" data-id="<%= reserva.id %>">
           <div class="reserva-info">
             <div class="sala-img">
               <img
-                src="<%= reserva.imagem || '/img/sala-default.jpg' %>"
+                src="<%= reserva.imagem || '/img/espaço-inteli.jpg' %>"
                 alt="<%= reserva.sala %>"
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  display: block;
+                "
               />
             </div>
             <div class="reserva-dados">
               <h2><%= reserva.sala %></h2>
               <p><strong>Data:</strong> <%= reserva.date %></p>
               <p><strong>Horário:</strong> <%= reserva.horario %></p>
-              <p><strong>Status:</strong> <%= reserva.status %></p>
+              <p>
+                <strong>Status:</strong>
+                <span class="status-<%= reserva.status.toLowerCase() %>"
+                  ><%= reserva.status %></span
+                >
+              </p>
             </div>
           </div>
           <div class="reserva-acoes">
-            <button class="btn-cancelar">Cancelar</button>
-            <button class="btn-editar">Editar</button>
+            <% if (reserva.status !== 'cancelada') { %>
+            <button
+              class="btn-cancelar"
+              onclick="confirmarCancelamento(<%= reserva.id %>)"
+            >
+              Cancelar
+            </button>
+            <button
+              class="btn-editar"
+              onclick="editarReserva(<%= reserva.id %>)"
+            >
+              Editar
+            </button>
+            <% } %>
           </div>
         </div>
-        <% }) %> <% } else { %>
+        <% }); %> <% } else { %>
         <p class="nenhuma-reserva">Você ainda não possui reservas.</p>
+        <a href="/home" class="btn-editar">Fazer uma reserva</a>
         <% } %>
       </div>
-      <script>
-        // Exibir mensagem de sucesso se veio de uma reserva
-        if (window.location.search.includes("success=1")) {
-          document.getElementById("success-message").style.display = "block";
-          setTimeout(() => {
-            document.getElementById("success-message").style.display = "none";
-          }, 2000);
-        }
-        // Atualizar reservas sem recarregar
-        document.getElementById("refresh-btn").onclick = async function () {
-          document.getElementById("loading").style.display = "block";
-          const res = await fetch("/minhas-reservas/api");
-          const reservas = await res.json();
-          const list = document.getElementById("reservas-list");
-          list.innerHTML = reservas.length
-            ? reservas
-                .map(
-                  (reserva) => `
-            <div class=\"reserva-card\">
-              <div class=\"reserva-info\">
-                <div class=\"sala-img\"><img src=\"${
-                  reserva.imagem || "/img/sala-default.jpg"
-                }\" alt=\"${reserva.sala}\" /></div>
-                <div class=\"reserva-dados\">
-                  <h2>${reserva.sala}</h2>
-                  <p><strong>Data:</strong> ${reserva.date}</p>
-                  <p><strong>Horário:</strong> ${reserva.horario}</p>
-                  <p><strong>Status:</strong> ${reserva.status}</p>
+    </main>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h3>Confirmar Cancelamento</h3>
+        <p>Tem certeza que deseja cancelar esta reserva?</p>
+        <div class="modal-buttons">
+          <button onclick="fecharModal()" class="btn-editar">Não</button>
+          <button onclick="cancelarReserva()" class="btn-cancelar">
+            Sim, Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let reservaIdParaCancelar = null;
+      const refreshBtn = document.getElementById("refresh-btn");
+      const loadingSpinner = document.getElementById("loading");
+      const successMessage = document.getElementById("success-message");
+      const errorMessage = document.getElementById("error-message");
+
+      // Função para atualizar a lista de reservas
+      async function atualizarReservas() {
+        showLoading();
+        try {
+          const response = await fetch("/minhas-reservas/api");
+          if (!response.ok) {
+            throw new Error("Erro ao buscar reservas");
+          }
+          const reservas = await response.json();
+
+          const reservasList = document.getElementById("reservas-list");
+          if (reservas.length === 0) {
+            reservasList.innerHTML = `
+              <div class="nenhuma-reserva">
+                <p>Você ainda não possui reservas.</p>
+                <a href="/home" class="btn-editar">Fazer uma reserva</a>
+              </div>
+            `;
+          } else {
+            reservasList.innerHTML = reservas
+              .map(
+                (reserva) => `
+              <div class="reserva-card" data-id="${reserva.id}">
+                <div class="reserva-info">
+                  <div class="sala-img">
+                    <img
+                      src="${reserva.imagem || "/img/espaço-inteli.jpg"}"
+                      alt="${reserva.sala}"
+                      style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                    />
+                  </div>
+                  <div class="reserva-dados">
+                    <h2>${reserva.sala}</h2>
+                    <p><strong>Data:</strong> ${new Date(
+                      reserva.date
+                    ).toLocaleDateString("pt-BR")}</p>
+                    <p><strong>Horário:</strong> ${reserva.horario}</p>
+                    <p>
+                      <strong>Status:</strong>
+                      <span class="status-${reserva.status.toLowerCase()}">${
+                  reserva.status
+                }</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="reserva-acoes">
+                  ${
+                    reserva.status !== "cancelada"
+                      ? `
+                    <button class="btn-cancelar" onclick="confirmarCancelamento(${reserva.id})">Cancelar</button>
+                    <button class="btn-editar" onclick="editarReserva(${reserva.id})">Editar</button>
+                  `
+                      : ""
+                  }
                 </div>
               </div>
-              <div class=\"reserva-acoes\">
-                <button class=\"btn-cancelar\">Cancelar</button>
-                <button class=\"btn-editar\">Editar</button>
-              </div>
-            </div>
-          `
-                )
-                .join("")
-            : '<p class="nenhuma-reserva">Você ainda não possui reservas.</p>';
-          document.getElementById("loading").style.display = "none";
-        };
-      </script>
-    </main>
+            `
+              )
+              .join("");
+          }
+          hideLoading();
+        } catch (error) {
+          console.error("Erro ao atualizar reservas:", error);
+          showError("Erro ao carregar reservas. Tente novamente.");
+          hideLoading();
+        }
+      }
+
+      // Atualizar a lista quando a página carregar
+      document.addEventListener("DOMContentLoaded", atualizarReservas);
+
+      // Atualizar quando o botão de atualizar for clicado
+      refreshBtn.addEventListener("click", atualizarReservas);
+
+      function showLoading() {
+        loadingSpinner.style.display = "block";
+        refreshBtn.disabled = true;
+      }
+
+      function hideLoading() {
+        loadingSpinner.style.display = "none";
+        refreshBtn.disabled = false;
+      }
+
+      function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.style.display = "block";
+        errorMessage.style.display = "none";
+        setTimeout(() => {
+          successMessage.style.display = "none";
+        }, 3000);
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        setTimeout(() => {
+          errorMessage.style.display = "none";
+        }, 3000);
+      }
+
+      function confirmarCancelamento(id) {
+        reservaIdParaCancelar = id;
+        document.getElementById("confirmModal").style.display = "flex";
+      }
+
+      function fecharModal() {
+        document.getElementById("confirmModal").style.display = "none";
+        reservaIdParaCancelar = null;
+      }
+
+      async function cancelarReserva() {
+        if (!reservaIdParaCancelar) return;
+
+        showLoading();
+        try {
+          const response = await fetch(
+            `/api/bookings/${reservaIdParaCancelar}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Erro ao cancelar reserva");
+          }
+
+          showSuccess("Reserva cancelada com sucesso!");
+          fecharModal();
+          atualizarReservas();
+        } catch (error) {
+          console.error("Erro ao cancelar reserva:", error);
+          showError("Erro ao cancelar reserva. Tente novamente.");
+        } finally {
+          hideLoading();
+        }
+      }
+
+      function editarReserva(id) {
+        window.location.href = `/home?edit=${id}`;
+      }
+    </script>
   </body>
 </html>

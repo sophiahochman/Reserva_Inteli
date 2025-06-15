@@ -5,6 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nova Reserva</title>
     <link rel="stylesheet" href="/css/reserva.css" />
+    <style>
+      .loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.7;
+      }
+      .loading::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin: -10px 0 0 -10px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .error-message {
+        color: #dc3545;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        display: none;
+      }
+      .success-message {
+        color: #28a745;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        display: none;
+      }
+      .form-group.error input,
+      .form-group.error select {
+        border-color: #dc3545;
+      }
+      .form-group.error .error-text {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+    </style>
   </head>
   <body>
     <header class="header">
@@ -26,16 +81,19 @@
             <option value="">Selecione uma sala</option>
             <!-- Salas serão carregadas via JavaScript -->
           </select>
+          <div class="error-text"></div>
         </div>
 
         <div class="form-group">
           <label for="date">Data:</label>
-          <input type="date" id="date" name="date" required />
+          <input type="date" id="date" name="date" required min="" />
+          <div class="error-text"></div>
         </div>
 
         <div class="form-group">
           <label for="start_time">Horário:</label>
           <input type="time" id="start_time" name="start_time" required />
+          <div class="error-text"></div>
         </div>
 
         <div class="form-group">
@@ -45,10 +103,14 @@
             <option value="confirmada">Confirmada</option>
             <option value="cancelada">Cancelada</option>
           </select>
+          <div class="error-text"></div>
         </div>
 
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+
         <div class="button-group">
-          <button type="submit">Salvar</button>
+          <button type="submit" id="submitButton">Salvar</button>
           <button type="button" onclick="window.location.href='/'">
             Cancelar
           </button>
@@ -92,10 +154,62 @@
     </div>
 
     <script>
+      const form = document.getElementById("reservaForm");
+      const submitButton = document.getElementById("submitButton");
+      const errorMessage = document.getElementById("error-message");
+      const successMessage = document.getElementById("success-message");
+      const dateInput = document.getElementById("date");
+      const timeInput = document.getElementById("start_time");
+
+      // Set minimum date to today
+      const today = new Date().toISOString().split("T")[0];
+      dateInput.min = today;
+
+      function showLoading() {
+        submitButton.classList.add("loading");
+        submitButton.disabled = true;
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
+      }
+
+      function hideLoading() {
+        submitButton.classList.remove("loading");
+        submitButton.disabled = false;
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        successMessage.style.display = "none";
+      }
+
+      function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.style.display = "block";
+        errorMessage.style.display = "none";
+      }
+
+      function setFieldError(field, message) {
+        const formGroup = field.closest(".form-group");
+        formGroup.classList.add("error");
+        const errorText = formGroup.querySelector(".error-text");
+        errorText.textContent = message;
+      }
+
+      function clearFieldError(field) {
+        const formGroup = field.closest(".form-group");
+        formGroup.classList.remove("error");
+        const errorText = formGroup.querySelector(".error-text");
+        errorText.textContent = "";
+      }
+
       // Carregar salas disponíveis
       async function carregarSalas() {
         try {
           const response = await fetch("/api/rooms");
+          if (!response.ok) {
+            throw new Error("Erro ao carregar salas");
+          }
           const salas = await response.json();
           const select = document.getElementById("room_id");
 
@@ -103,51 +217,103 @@
             const option = document.createElement("option");
             option.value = sala.id;
             option.textContent = sala.name;
+            // Se quiser exibir a imagem ao lado do nome, pode adicionar um elemento img aqui, mas para fallback, garanta que a imagem padrão seja '/img/espaço-inteli.jpg' se não houver imagem da sala.
             select.appendChild(option);
           });
         } catch (error) {
           console.error("Erro ao carregar salas:", error);
+          showError(
+            "Não foi possível carregar as salas. Tente novamente mais tarde."
+          );
         }
       }
 
-      // Enviar formulário
-      document
-        .getElementById("reservaForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      // Validar horário
+      function validateTime() {
+        const selectedDate = new Date(dateInput.value);
+        const selectedTime = timeInput.value;
+        const now = new Date();
 
-          const formData = {
-            room_id: document.getElementById("room_id").value,
-            date: document.getElementById("date").value,
-            start_time: document.getElementById("start_time").value,
-            status: document.getElementById("status").value,
-          };
+        if (selectedDate.toDateString() === now.toDateString()) {
+          const [hours, minutes] = selectedTime.split(":");
+          const selectedDateTime = new Date();
+          selectedDateTime.setHours(hours, minutes);
 
-          try {
-            const response = await fetch("/api/bookings", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-              document.getElementById("success-animation").style.display =
-                "flex";
-              setTimeout(() => {
-                window.location.href = "/minhas-reservas";
-              }, 1200);
-              return;
-            } else {
-              const error = await response.json();
-              alert(error.error || "Erro ao criar reserva");
-            }
-          } catch (error) {
-            console.error("Erro:", error);
-            alert("Erro ao criar reserva");
+          if (selectedDateTime < now) {
+            setFieldError(timeInput, "O horário selecionado já passou");
+            return false;
           }
-        });
+        }
+
+        clearFieldError(timeInput);
+        return true;
+      }
+
+      // Validar data
+      function validateDate() {
+        const selectedDate = new Date(dateInput.value);
+        const now = new Date();
+
+        if (selectedDate < now) {
+          setFieldError(dateInput, "A data selecionada já passou");
+          return false;
+        }
+
+        clearFieldError(dateInput);
+        return true;
+      }
+
+      // Event listeners para validação em tempo real
+      dateInput.addEventListener("change", validateDate);
+      timeInput.addEventListener("change", validateTime);
+
+      // Enviar formulário
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Validar campos
+        if (!validateDate() || !validateTime()) {
+          return;
+        }
+
+        showLoading();
+
+        const formData = {
+          room_id: document.getElementById("room_id").value,
+          date: dateInput.value,
+          start_time: timeInput.value,
+          status: document.getElementById("status").value,
+        };
+
+        console.log("Dados da reserva:", formData);
+
+        try {
+          const response = await fetch("/api/bookings", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+            credentials: "include",
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            document.getElementById("success-animation").style.display = "flex";
+            setTimeout(() => {
+              window.location.href = "/minhas-reservas";
+            }, 1200);
+          } else {
+            showError(data.error || "Erro ao criar reserva");
+          }
+        } catch (error) {
+          console.error("Erro:", error);
+          showError("Erro ao criar reserva. Tente novamente mais tarde.");
+        } finally {
+          hideLoading();
+        }
+      });
 
       // Carregar salas quando a página carregar
       carregarSalas();

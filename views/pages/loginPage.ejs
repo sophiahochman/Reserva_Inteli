@@ -5,6 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - Sistema de Reserva de Salas</title>
     <link rel="stylesheet" href="/css/login.css" />
+    <style>
+      .loading {
+        position: relative;
+        pointer-events: none;
+      }
+      .loading::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 50%;
+        left: 50%;
+        margin: -10px 0 0 -10px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #3498db;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .error-message {
+        color: #dc3545;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        display: none;
+      }
+      .success-message {
+        color: #28a745;
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="login-header">
@@ -22,47 +67,102 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" id="loginButton">Login</button>
         </form>
         <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
       </div>
     </div>
 
     <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      const loginForm = document.getElementById("loginForm");
+      const loginButton = document.getElementById("loginButton");
+      const errorMessage = document.getElementById("error-message");
+      const successMessage = document.getElementById("success-message");
 
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const errorMessage = document.getElementById("error-message");
+      function showLoading() {
+        loginButton.classList.add("loading");
+        loginButton.disabled = true;
+        errorMessage.style.display = "none";
+        successMessage.style.display = "none";
+      }
 
-          try {
-            const response = await fetch("/api/auth/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ email, password }),
-            });
+      function hideLoading() {
+        loginButton.classList.remove("loading");
+        loginButton.disabled = false;
+      }
 
-            const data = await response.json();
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = "block";
+        successMessage.style.display = "none";
+      }
 
-            if (response.ok) {
-              // Login bem-sucedido
+      function showSuccess(message) {
+        successMessage.textContent = message;
+        successMessage.style.display = "block";
+        errorMessage.style.display = "none";
+      }
+
+      loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        showLoading();
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showSuccess("Login realizado com sucesso! Redirecionando...");
+            setTimeout(() => {
               window.location.href = "/";
-            } else {
-              // Exibir mensagem de erro
-              errorMessage.textContent = data.error || "Erro ao fazer login";
-              errorMessage.style.display = "block";
-            }
-          } catch (error) {
-            console.error("Erro:", error);
-            errorMessage.textContent = "Erro ao conectar com o servidor";
-            errorMessage.style.display = "block";
+            }, 1000);
+          } else {
+            showError(
+              data.error || "Erro ao fazer login. Verifique suas credenciais."
+            );
           }
-        });
+        } catch (error) {
+          console.error("Erro:", error);
+          showError(
+            "Erro ao conectar com o servidor. Tente novamente mais tarde."
+          );
+        } finally {
+          hideLoading();
+        }
+      });
+
+      // Validação em tempo real
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+
+      emailInput.addEventListener("input", () => {
+        if (emailInput.validity.typeMismatch) {
+          emailInput.setCustomValidity("Por favor, insira um email válido");
+        } else {
+          emailInput.setCustomValidity("");
+        }
+      });
+
+      passwordInput.addEventListener("input", () => {
+        if (passwordInput.value.length < 6) {
+          passwordInput.setCustomValidity(
+            "A senha deve ter pelo menos 6 caracteres"
+          );
+        } else {
+          passwordInput.setCustomValidity("");
+        }
+      });
 
       // Testar conexão com o servidor
       async function testServerConnection() {
@@ -72,6 +172,9 @@
           console.log("Conexão com o servidor:", data.message);
         } catch (error) {
           console.error("Erro ao conectar com o servidor:", error);
+          showError(
+            "Não foi possível conectar ao servidor. Verifique sua conexão."
+          );
         }
       }
 

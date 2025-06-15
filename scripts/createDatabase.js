@@ -73,6 +73,13 @@ async function createDatabase() {
         ["Usuário Teste", "teste@inteli.edu.br", hashedPassword]
       );
       console.log("Usuário de teste criado com sucesso!");
+
+      // Adicionar restrição única à tabela bookings
+      await reservaClient.query(`
+        ALTER TABLE bookings
+        ADD CONSTRAINT unique_booking UNIQUE (user_id, room_id, date, start_time);
+      `);
+      console.log("Restrição unique_booking adicionada com sucesso!");
     } finally {
       reservaClient.release();
     }
@@ -90,3 +97,14 @@ async function createDatabase() {
 }
 
 createDatabase().catch(console.error);
+
+const list = document.getElementById("reservas-list");
+list.innerHTML = ""; // Limpa antes de adicionar novas reservas
+
+const refreshBtn = document.getElementById("refresh-btn");
+refreshBtn.addEventListener("click", carregarReservas);
+
+async function carregarReservas() {
+  console.log("Chamou carregarReservas");
+  // ...restante do código
+}

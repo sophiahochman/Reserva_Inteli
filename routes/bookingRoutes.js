@@ -17,4 +17,7 @@ router.put("/:id", bookingController.updateBooking);
 // Excluir reserva
 router.delete("/:id", bookingController.deleteBooking);
 
+// Endpoint de debug para listar todas as reservas
+router.get("/all", bookingController.getAllBookingsRaw);
+
 module.exports = router;

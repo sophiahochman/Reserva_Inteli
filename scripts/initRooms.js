@@ -9,9 +9,16 @@ db.serialize(() => {
 
   // Exemplo de salas (ajuste os nomes e imagens depois se quiser)
   const salas = [
-    { name: "R01", imagem: "/img/sala1.jpg" },
-    { name: "R02", imagem: "/img/sala2.jpg" },
-    { name: "R03", imagem: "/img/sala3.jpg" },
+    { name: "R01", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R02", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R03", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R04", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R05", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R06", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R07", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R08", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R09", imagem: "assets/img/espaço-inteli.jpg" },
+    { name: "R10", imagem: "assets/img/espaço-inteli.jpg" },
   ];
 
   salas.forEach((sala) => {

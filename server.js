@@ -81,6 +81,15 @@ app.get("/", (req, res) => {
 });
 app.use("/home", homeRoutes);
 
+// Endpoint temporário para debug: retorna o user_id da sessão atual
+app.get("=/api/session-user", (req, res) => {
+  if (req.session && req.session.user) {
+    res.json({ user: req.session.user });
+  } else {
+    res.json({ user: null });
+  }
+});
+
 // Inicializa o servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
