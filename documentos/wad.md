@@ -116,7 +116,7 @@ Esses modelos permitem realizar operações como criação, leitura, atualizaç�
 
 <div align="center">
   <img src="../assets/arquitetura.png" width="100%"
-  alt="wire frame"><br>
+  alt="arquitetura"><br>
 </div>
 
   
