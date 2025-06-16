@@ -197,27 +197,64 @@ POST /horarios – Adiciona um novo intervalo de horário.
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Desenvolvimento do frontend:
+A interface foi criada com EJS e Bootstrap nas seguintes páginas principais:
 
----
+Página inicial: mostra lista de salas disponíveis e botão para nova reserva.
+
+Formulário de reserva: permite selecionar sala, data e horário; exibe feedback ao usuário (sucesso ou erro de conflito).
+
+Listagem de reservas: exibe reservas do usuário com opção de exclusão ou edição.
+
+Navegação:
+
+Um menu fixo no topo permite acessar a página principal e a página de reservas.
+
+Os botões possuem feedback visual via classes do Bootstrap (btn-success, btn-danger).
+
+Todos os formulários seguem um template consistente e responsivo, já testado em celular (visualização adequada em tela pequena).
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
-*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+<video width="640" height="360" controls>
+  <source src="../assets/videoSite.mp4" type="video/mp4"
+ alt="Vídeo da execução do site"><br>
+</video>
+
+Descrição do conteúdo do vídeo:
+
+Demonstração da tela de login
+Demonstração da página inicial com lista de salas.
+Fluxo completo: criar uma reserva com feedback de sucesso
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+ Pontos fortes:
 
+- Sistema funcional com operações CRUD completas.
+- Interface organizada, responsiva e de fácil navegação.
+- Arquitetura limpa (MVC) favorecendo manutenção e escalabilidade.
+- Tratamento de conflitos de horário com validações eficazes no back-end.
+
+  Desafios enfrentados:
+
+- Primeira experiência com Express.js e estruturação por controllers.
+- Implementação de lógica para detectar reservas em horários já ocupados (uso de SELECT com WHERE date = … AND start_time = …).
+- Estabelecer integração entre form, fetch e resposta ao usuário com mensagens claras.
+
+ Melhorias futuras:
+
+- Autenticação de usuários: login + níveis de acesso (aluno, admin).
+- Notificações via e-mail: confirmação e lembrete de reserva.
+- Feedback de erro mais detalhado: mensagens específicas no front-end.
+- Reservas recorrentes: possibilidade de agendar eventos semanais/mensais.
+- Visualização avançada: grade semanal de horários disponíveis.
+- Exportação de reservas: geração de relatórios em PDF ou CSV.
+- Design aprimorado: melhorar a interface com componentes personalizados ou animações.
 
 
 ## <a name="c5"></a>5. Referências
 
 https://www.inteli.edu.br/
-
----
----
