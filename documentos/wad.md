@@ -218,16 +218,14 @@ Todos os formulários seguem um template consistente e responsivo, já testado e
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-<video width="640" height="360" controls>
-  <source src="../assets/videoSite.mp4" type="video/mp4"
- alt="Vídeo da execução do site"><br>
-</video>
+##### Vídeo nos assets
+(Não consegui adicionar o vídeo aqui pelo fato de ser muito grande, por favor ir nos assets e baixa-lo)
 
 Descrição do conteúdo do vídeo:
 
-Demonstração da tela de login
-Demonstração da página inicial com lista de salas.
-Fluxo completo: criar uma reserva com feedback de sucesso
+- Demonstração da tela de login
+- Demonstração da página inicial com lista de salas.
+- Fluxo completo: criar uma reserva com feedback de sucesso
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
