@@ -114,12 +114,11 @@ Esses modelos permitem realizar operações como criação, leitura, atualizaç�
 
 ### 3.2. Arquitetura (Semana 5)
 
-*Posicione aqui o diagrama de arquitetura da sua solução de aplicação web. Atualize sempre que necessário.*
+<div align="center">
+  <img src="../assets/arquitetura.png" width="100%"
+  alt="wire frame"><br>
+</div>
 
-**Instruções para criação do diagrama de arquitetura**  
-- **Model**: A camada que lida com a lógica de negócios e interage com o banco de dados.
-- **View**: A camada responsável pela interface de usuário.
-- **Controller**: A camada que recebe as requisições, processa as ações e atualiza o modelo e a visualização.
   
 *Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
 
