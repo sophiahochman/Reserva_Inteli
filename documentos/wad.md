@@ -115,12 +115,12 @@ Esses modelos permitem realizar operações como criação, leitura, atualizaç�
 ### 3.2. Arquitetura (Semana 5)
 
 <div align="center">
-  <img src="../assets/arquitetura.png" width="100%"
+  <img src="../assets/arquitetura.jpg" width="100%"
   alt="arquitetura"><br>
 </div>
 
   
-*Adicione as setas e explicações sobre como os dados fluem entre o Model, Controller e View.*
+
 
 ### 3.3. Wireframes (Semana 03)
 
