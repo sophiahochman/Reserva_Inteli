@@ -115,7 +115,7 @@ Esses modelos permitem realizar operações como criação, leitura, atualizaç�
 ### 3.2. Arquitetura (Semana 5)
 
 <div align="center">
-  <img src="../assets/arquitetura.jpg" width="100%"
+  <img src="../assets/aquitetura.jpg" width="100%"
   alt="arquitetura"><br>
 </div>
 
